@@ -1,0 +1,78 @@
+# PACTran Metrics
+
+This is the code repository for the paper: PACTran: PAC-Bayesian Metrics for Estimating the Transferability of Pretrained Models to Classification Tasks (`https://arxiv.org/abs/2203.05126`).
+
+## Introduction
+
+PACTran is a theoretically grounded family of metrics for pretrained model selection and transferability measurement. The family is derived from the optimal PAC-Bayesian bound under the transfer learning setting. It contains three metric instantiations: PACTran-Dirichlet, PACTran-Gamma, PACTran-Gaussian.
+Our experiments showed that PACTran-Gaussian is a more consistent and effective transferability measure compared to other existing selection methods.
+
+## How to use
+
+In the following, we provide the instructions of using the metrics (while using the caltech101 task in the Visual Task Adaptation Benchmark (VTAB) [1] and the Sup-100% checkpoint as an example).
+
+- Prerequisites:
+  - Tensorflow
+  - Tensorflow-Hub
+  - Numpy
+  - Scipy
+
+
+- For feature prediction, run
+python adapt_and_eval.py -- \
+--hub_module 'https://tfhub.dev/vtab/sup-100/1'  \
+--hub_module_signature default \
+--finetune_layer default \
+--work_dir /tmp/all_features \
+--dataset 'caltech101' \
+--batch_size 512 \
+--batch_size_eval 512 \
+--initial_learning_rate 0.001 \
+--decay_steps 1500,3000,4500 \
+--max_steps 1 \
+--run_adaptation=False \
+--run_evaluation=False \
+--run_prediction=True \
+--linear_eval=False
+
+- For whole network finetuning, run
+hub='https://tfhub.dev/vtab/sup-100/1'
+IFS='/' read -ra strarr <<< "$hub"
+model_name=${strarr[-2]}
+python adapt_and_eval.py -- \
+--hub_module ${hub}  \
+--hub_module_signature default \
+--finetune_layer default \
+--work_dir /tmp/all_models/${model_name} \
+--dataset 'caltech101' \
+--batch_size 512 \
+--batch_size_eval 512 \
+--initial_learning_rate 0.001 \
+--decay_steps 1500,3000,4500 \
+--max_steps 5000 \
+--run_adaptation \
+--use_anil False
+
+
+- For top-layer only finetuning, run
+python anil_classifier.py -- \
+--hub_module="https://tfhub.dev/vtab/sup-100/1" \
+--dataset="caltech101" \
+--work_dir=/tmp/all_results \
+--feature_dir=/tmp/all_features
+
+- For metrics estimation, run
+python compute_metrics.py -- \
+--hub_module="https://tfhub.dev/vtab/sup-100/1" \
+--dataset="caltech101" \
+--work_dir=/tmp/all_results \
+--feature_dir=/tmp/all_features \
+--num_examples=2
+
+
+## Reference:
+
+[1] Zhai, X., Puigcerver, J., Kolesnikov, A., Ruyssen, P., Riquelme, C., Lucic, M., Djolonga,
+J., Pinto, A.S., Neumann, M., Dosovitskiy, A., et al.: A large-scale study of
+representation learning with the visual task adaptation benchmark. arXiv preprint
+arXiv:1910.04867 (2019)
