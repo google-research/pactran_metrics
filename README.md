@@ -17,6 +17,7 @@ In the following, we provide the instructions of using the metrics (while using 
   - Tensorflow-datasets
   - Numpy
   - Scipy
+  - Scikit-learn
 
 
 - For feature prediction, run
