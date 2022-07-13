@@ -72,11 +72,16 @@ python -m pactran_metrics.adapt_and_eval \
 --feature_dir=/tmp/all_features \
 --num_examples=2
 ```
-- All available tasks:
+- All available datasets (in `./data` folder):
   - "caltech101"
   - "oxford_flowers102"
   - "patch_camelyon"
   - "sun397"
+  - "dmlab"
+  - "cifar"
+  - "ddsm"
+  - "oxford_iiit_pet"
+  - "smallnorb"
   
 - All available model URLs:
   - "https://tfhub.dev/vtab/sup-100/1" \
