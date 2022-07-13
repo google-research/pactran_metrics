@@ -15,7 +15,7 @@
 """Imports the Caltech images dataset."""
 
 from pactran_metrics import registry
-from garcon.pactran_metrics.data import base
+from pactran_metrics.data import base
 import tensorflow_datasets as tfds
 
 # Percentage of the original training set retained for training, the rest is
