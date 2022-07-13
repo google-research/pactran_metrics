@@ -14,7 +14,7 @@
 # limitations under the License.
 """Tests for sun397.py."""
 
-from garcon.pactran_metrics.data import data_testing_lib
+from pactran_metrics.data import data_testing_lib
 from pactran_metrics.data import sun397
 import tensorflow.compat.v1 as tf
 
