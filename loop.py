@@ -21,7 +21,7 @@ from absl import flags
 from pactran_metrics import data_loader
 from pactran_metrics import model
 import tensorflow.compat.v1 as tf
-from tensorflow_estimator.compat.v1 import estimator as tf_estimator
+from tensorflow_estimator import estimator as tf_estimator
 
 FLAGS = flags.FLAGS
 
