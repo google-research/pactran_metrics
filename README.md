@@ -30,7 +30,7 @@ python -m pactran_metrics.adapt_and_eval \
 --batch_size_eval 512 \
 --initial_learning_rate 0.001 \
 --decay_steps 1500,3000,4500 \
---max_steps 5000 \
+--max_steps 1 \
 --run_adaptation=False \
 --run_evaluation=False \
 --run_prediction=True \
