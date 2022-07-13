@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """Tests for dmlab.py."""
-from garcon.pactran_metrics.data import data_testing_lib
+from pactran_metrics.data import data_testing_lib
 from pactran_metrics.data import dmlab
 import tensorflow.compat.v1 as tf
 
