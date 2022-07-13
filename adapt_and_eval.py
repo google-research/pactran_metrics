@@ -92,7 +92,6 @@ def main(argv):
         work_dir=FLAGS.work_dir,
         save_checkpoints_steps=FLAGS.save_checkpoint_steps,
         optimization_params=get_optimization_params_from_flags(),
-        save_format=FLAGS.save_format,
         data_params=get_data_params_from_flags("prediction"))
 
 
