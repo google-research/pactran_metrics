@@ -16,7 +16,7 @@
 
 from pactran_metrics import trainer
 import tensorflow.compat.v1 as tf
-from tensorflow_estimator.compat.v1 import estimator as tf_estimator
+from tensorflow_estimator import estimator as tf_estimator
 import tensorflow_hub as hub
 
 
