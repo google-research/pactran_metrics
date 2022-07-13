@@ -116,8 +116,6 @@ class BaseTfdsDataTest(BaseDataTest):
         default_label_key=default_label_key,
         **kwargs)
     # Set the tfds_label_key_map attribute.
-    # TODO(yandongli) simplify the logics to align
-    # TODO(yandongli) tfds_label_key_map and num_classes
     if isinstance(num_classes, int):
       if tfds_label_key_map is None:
         self.tfds_label_key_map = {default_label_key: default_label_key}
