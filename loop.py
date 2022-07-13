@@ -129,11 +129,10 @@ def run_prediction_loop(hub_module, hub_module_signature, work_dir,
                               save_checkpoints_steps,
                               optimization_params,
                               data_params)
-  input_fn = data_loader.build_data_pipeline(data_params, mode="predict")
-
-  pred_generator = estimator.predict(input_fn)
 
   for mode in ["train", "eval"]:
+      input_fn = data_loader.build_data_pipeline(data_params, mode="predict")
+      pred_generator = estimator.predict(input_fn)
 
       total_image = data_params["dataset"].get_num_samples(
           data_params["dataset_" + mode + "_split_name"])
