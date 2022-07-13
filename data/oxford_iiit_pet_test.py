@@ -14,7 +14,7 @@
 # limitations under the License.
 """Tests for plant_leaves.py."""
 
-from garcon.pactran_metrics.data import data_testing_lib
+from pactran_metrics.data import data_testing_lib
 from pactran_metrics.data import oxford_iiit_pet
 import tensorflow.compat.v1 as tf
 
