@@ -21,7 +21,8 @@ In the following, we provide the instructions of using the metrics (while using 
 
 
 - For feature prediction, run
-```python -m pactran_metrics.adapt_and_eval \
+```
+python -m pactran_metrics.adapt_and_eval \
 --hub_module 'https://tfhub.dev/vtab/sup-100/1'  \
 --hub_module_signature default \
 --finetune_layer default \
@@ -39,7 +40,8 @@ In the following, we provide the instructions of using the metrics (while using 
 ```
 
 - For whole network finetuning, run
-```hub='https://tfhub.dev/vtab/sup-100/1'
+```
+hub='https://tfhub.dev/vtab/sup-100/1'
 model_name=sup-100
 python -m pactran_metrics.adapt_and_eval \
 --hub_module ${hub}  \
@@ -57,7 +59,8 @@ python -m pactran_metrics.adapt_and_eval \
 ```
 
 - For top-layer only finetuning, run
-```python -m pactran_metrics.anil_classifier \
+```
+python -m pactran_metrics.anil_classifier \
 --hub_module="https://tfhub.dev/vtab/sup-100/1" \
 --dataset="oxford_iiit_pet" \
 --work_dir=/tmp/all_results \
@@ -65,7 +68,8 @@ python -m pactran_metrics.adapt_and_eval \
 ```
 
 - For metrics estimation, run
-```python -m pactran_metrics.compute_metrics \
+```
+python -m pactran_metrics.compute_metrics \
 --hub_module="https://tfhub.dev/vtab/sup-100/1" \
 --dataset="oxford_iiit_pet" \
 --work_dir=/tmp/all_results \
