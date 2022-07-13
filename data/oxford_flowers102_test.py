@@ -14,7 +14,7 @@
 # limitations under the License.
 """Tests for oxford_flowers102.py."""
 
-from garcon.pactran_metrics.data import data_testing_lib
+from pactran_metrics.data import data_testing_lib
 from pactran_metrics.data import oxford_flowers102
 import tensorflow.compat.v1 as tf
 
