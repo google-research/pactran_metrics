@@ -14,22 +14,23 @@ In the following, we provide the instructions of using the metrics (while using 
 - Prerequisites:
   - Tensorflow
   - Tensorflow-Hub
+  - Tensorflow-datasets
   - Numpy
   - Scipy
 
 
 - For feature prediction, run
-python adapt_and_eval.py -- \
+python -m pactran_metrics.adapt_and_eval \
 --hub_module 'https://tfhub.dev/vtab/sup-100/1'  \
 --hub_module_signature default \
 --finetune_layer default \
---work_dir /tmp/all_features \
---dataset 'caltech101' \
+--work_dir /tmp/all_features/sup-100/oxford_iiit_pet/ \
+--dataset 'oxford_iiit_pet' \
 --batch_size 512 \
 --batch_size_eval 512 \
 --initial_learning_rate 0.001 \
 --decay_steps 1500,3000,4500 \
---max_steps 1 \
+--max_steps 5000 \
 --run_adaptation=False \
 --run_evaluation=False \
 --run_prediction=True \
@@ -37,14 +38,13 @@ python adapt_and_eval.py -- \
 
 - For whole network finetuning, run
 hub='https://tfhub.dev/vtab/sup-100/1'
-IFS='/' read -ra strarr <<< "$hub"
-model_name=${strarr[-2]}
-python adapt_and_eval.py -- \
+model_name=sup-100
+python -m pactran_metrics.adapt_and_eval \
 --hub_module ${hub}  \
 --hub_module_signature default \
 --finetune_layer default \
 --work_dir /tmp/all_models/${model_name} \
---dataset 'caltech101' \
+--dataset 'oxford_iiit_pet' \
 --batch_size 512 \
 --batch_size_eval 512 \
 --initial_learning_rate 0.001 \
@@ -55,16 +55,16 @@ python adapt_and_eval.py -- \
 
 
 - For top-layer only finetuning, run
-python anil_classifier.py -- \
+python -m pactran_metrics.anil_classifier \
 --hub_module="https://tfhub.dev/vtab/sup-100/1" \
---dataset="caltech101" \
+--dataset="oxford_iiit_pet" \
 --work_dir=/tmp/all_results \
 --feature_dir=/tmp/all_features
 
 - For metrics estimation, run
-python compute_metrics.py -- \
+python -m pactran_metrics.compute_metrics \
 --hub_module="https://tfhub.dev/vtab/sup-100/1" \
---dataset="caltech101" \
+--dataset="oxford_iiit_pet" \
 --work_dir=/tmp/all_results \
 --feature_dir=/tmp/all_features \
 --num_examples=2
