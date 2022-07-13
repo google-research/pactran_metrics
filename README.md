@@ -9,7 +9,7 @@ Our experiments showed that PACTran-Gaussian is a more consistent and effective 
 
 ## How to use
 
-In the following, we provide the instructions of using the metrics (while using the caltech101 task in the Visual Task Adaptation Benchmark (VTAB) [1] and the Sup-100% checkpoint as an example).
+In the following, we provide the instructions of using the metrics (while using the oxford_iiit_pet task in the Visual Task Adaptation Benchmark (VTAB) [1] and the Sup-100% checkpoint as an example).
 
 - Prerequisites:
   - Tensorflow
@@ -20,7 +20,7 @@ In the following, we provide the instructions of using the metrics (while using 
 
 
 - For feature prediction, run
-python -m pactran_metrics.adapt_and_eval \
+```python -m pactran_metrics.adapt_and_eval \
 --hub_module 'https://tfhub.dev/vtab/sup-100/1'  \
 --hub_module_signature default \
 --finetune_layer default \
@@ -35,9 +35,10 @@ python -m pactran_metrics.adapt_and_eval \
 --run_evaluation=False \
 --run_prediction=True \
 --linear_eval=False
+```
 
 - For whole network finetuning, run
-hub='https://tfhub.dev/vtab/sup-100/1'
+```hub='https://tfhub.dev/vtab/sup-100/1'
 model_name=sup-100
 python -m pactran_metrics.adapt_and_eval \
 --hub_module ${hub}  \
@@ -52,23 +53,46 @@ python -m pactran_metrics.adapt_and_eval \
 --max_steps 5000 \
 --run_adaptation \
 --use_anil False
-
+```
 
 - For top-layer only finetuning, run
-python -m pactran_metrics.anil_classifier \
+```python -m pactran_metrics.anil_classifier \
 --hub_module="https://tfhub.dev/vtab/sup-100/1" \
 --dataset="oxford_iiit_pet" \
 --work_dir=/tmp/all_results \
 --feature_dir=/tmp/all_features
+```
 
 - For metrics estimation, run
-python -m pactran_metrics.compute_metrics \
+```python -m pactran_metrics.compute_metrics \
 --hub_module="https://tfhub.dev/vtab/sup-100/1" \
 --dataset="oxford_iiit_pet" \
 --work_dir=/tmp/all_results \
 --feature_dir=/tmp/all_features \
 --num_examples=2
-
+```
+- All available tasks:
+  - "caltech101"
+  - "oxford_flowers102"
+  - "patch_camelyon"
+  - "sun397"
+  
+- All available model URLs:
+  - "https://tfhub.dev/vtab/sup-100/1" \
+  - "https://tfhub.dev/vtab/sup-rotation-100/1" \
+  - "https://tfhub.dev/vtab/sup-exemplar-100/1" \
+  - "https://tfhub.dev/vtab/semi-exemplar-10/1" \
+  - "https://tfhub.dev/vtab/semi-rotation-10/1" \
+  - "https://tfhub.dev/vtab/rotation/1" \
+  - "https://tfhub.dev/vtab/exemplar/1" \
+  - "https://tfhub.dev/vtab/relative-patch-location/1" \
+  - "https://tfhub.dev/vtab/jigsaw/1" \
+  - "https://tfhub.dev/vtab/uncond-biggan/1" \
+  - "https://tfhub.dev/vtab/cond-biggan/1" \
+  - "https://tfhub.dev/vtab/wae-mmd/1" \
+  - "https://tfhub.dev/vtab/vae/1" \
+  - "https://tfhub.dev/vtab/wae-ukl/1" \
+  - "https://tfhub.dev/vtab/wae-gan/1"
 
 ## Reference:
 
