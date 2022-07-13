@@ -1,0 +1,5 @@
+# Run pip install --upgrade pip if tensorflow 1.15 cannot be found
+tensorflow==1.15.2   # CPU Version of TensorFlow
+tensorflow-hub==0.12
+tensorflow-datasets==3.2.1
+protobuf==3.20
