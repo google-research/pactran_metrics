@@ -9,7 +9,7 @@ Our experiments showed that PACTran-Gaussian is a more consistent and effective 
 
 ## How to use
 
-In the following, we provide the instructions of using the metrics (while using the oxford_iiit_pet task in the Visual Task Adaptation Benchmark (VTAB) [1] and the Sup-100% checkpoint as an example).
+In the following, we provide the instructions of using the metrics (while using the caltech101 task in the Visual Task Adaptation Benchmark (VTAB) [1] and the Sup-100% checkpoint as an example).
 
 - Prerequisites:
   - Tensorflow
@@ -26,8 +26,8 @@ python -m pactran_metrics.adapt_and_eval \
 --hub_module 'https://tfhub.dev/vtab/sup-100/1'  \
 --hub_module_signature default \
 --finetune_layer default \
---work_dir /tmp/all_features/sup-100/oxford_iiit_pet/ \
---dataset 'oxford_iiit_pet' \
+--work_dir /tmp/all_features/sup-100/caltech101/ \
+--dataset 'caltech101' \
 --batch_size 512 \
 --batch_size_eval 512 \
 --initial_learning_rate 0.001 \
@@ -41,14 +41,14 @@ python -m pactran_metrics.adapt_and_eval \
 
 - For whole network finetuning, run
 ```
-hub='https://tfhub.dev/vtab/sup-100/1'
 model_name=sup-100
+hub='https://tfhub.dev/vtab/${model_name}/1'
 python -m pactran_metrics.adapt_and_eval \
 --hub_module ${hub}  \
 --hub_module_signature default \
 --finetune_layer default \
 --work_dir /tmp/all_models/${model_name} \
---dataset 'oxford_iiit_pet' \
+--dataset 'caltech101' \
 --batch_size 512 \
 --batch_size_eval 512 \
 --initial_learning_rate 0.001 \
@@ -62,7 +62,7 @@ python -m pactran_metrics.adapt_and_eval \
 ```
 python -m pactran_metrics.anil_classifier \
 --hub_module="https://tfhub.dev/vtab/sup-100/1" \
---dataset="oxford_iiit_pet" \
+--dataset="caltech101" \
 --work_dir=/tmp/all_results \
 --feature_dir=/tmp/all_features
 ```
@@ -71,7 +71,7 @@ python -m pactran_metrics.anil_classifier \
 ```
 python -m pactran_metrics.compute_metrics \
 --hub_module="https://tfhub.dev/vtab/sup-100/1" \
---dataset="oxford_iiit_pet" \
+--dataset="caltech101" \
 --work_dir=/tmp/all_results \
 --feature_dir=/tmp/all_features \
 --num_examples=2
