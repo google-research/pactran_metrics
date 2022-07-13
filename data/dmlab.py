@@ -15,7 +15,7 @@
 """Implements Dmlab data class."""
 
 from pactran_metrics import registry
-from garcon.pactran_metrics.data import base
+from pactran_metrics.data import base
 import tensorflow_datasets as tfds
 
 
