@@ -14,7 +14,7 @@
 # limitations under the License.
 """Tests for patch_camelyon.py."""
 
-from garcon.pactran_metrics.data import data_testing_lib
+from pactran_metrics.data import data_testing_lib
 from pactran_metrics.data import patch_camelyon
 import tensorflow.compat.v1 as tf
 
