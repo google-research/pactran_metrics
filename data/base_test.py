@@ -14,7 +14,7 @@
 # limitations under the License.
 """Tests for task_transferability.data.base."""
 
-from garcon.pactran_metrics.data import base
+from pactran_metrics.data import base
 import tensorflow.compat.v1 as tf
 
 
