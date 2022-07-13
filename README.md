@@ -2,6 +2,8 @@
 
 This is the code repository for the paper: PACTran: PAC-Bayesian Metrics for Estimating the Transferability of Pretrained Models to Classification Tasks (`https://arxiv.org/abs/2203.05126`).
 
+This is not an officially supported Google product.
+
 ## Introduction
 
 PACTran is a theoretically grounded family of metrics for pretrained model selection and transferability measurement. The family is derived from the optimal PAC-Bayesian bound under the transfer learning setting. It contains three metric instantiations: PACTran-Dirichlet, PACTran-Gamma, PACTran-Gaussian.
