@@ -133,45 +133,64 @@ def run_prediction_loop(hub_module, hub_module_signature, work_dir,
 
   pred_generator = estimator.predict(input_fn)
 
-  mode = "train"  # train or eval
+  for mode in ["train", "eval"]:
 
-  total_image = data_params["dataset"].get_num_samples(
-      data_params["dataset_" + mode + "_split_name"])
-  work_dir = os.path.join(work_dir, mode)
-  if not tf.gfile.Exists(work_dir):
-    tf.gfile.MakeDirs(work_dir)
+      total_image = data_params["dataset"].get_num_samples(
+          data_params["dataset_" + mode + "_split_name"])
+      work_dir = os.path.join(work_dir, mode)
+      if not tf.gfile.Exists(work_dir):
+        tf.gfile.MakeDirs(work_dir)
 
-  image_nums = 0
-  correct = 0
-  feature_list = []
-  label_list = []
-  predict_list = []
-  prob_list = []
-  logit_list = []
+      image_nums = 0
+      correct = 0
+      feature_list = []
+      label_list = []
+      predict_list = []
+      prob_list = []
+      logit_list = []
 
-  pkl_file_prefix = "feature_label_logits_" + mode
-  tf.logging.info("save feature to pkl")
+      pkl_file_prefix = "feature_label_logits_" + mode
+      tf.logging.info("save feature to pkl")
 
-  for pred_dict in pred_generator:
-    feature_list.append(pred_dict["features"])
-    label_list.append(pred_dict["labels"])
-    predict_list.append(pred_dict["classes"])
-    prob_list.append(pred_dict["probabilities"])
-    logit_list.append(pred_dict["logits"])
-    if pred_dict["labels"] == pred_dict["classes"]:
-      correct += 1
-    # print('predict: ', pred_dict["classes"])
-    # print('label: ', pred_dict["labels"])
-    # "probabilities",
-    image_nums += 1
-    if image_nums >= total_image:
-      break
-    if image_nums % (20000) == 0:
-      tf.logging.info("image_nums %s", image_nums)
-      pkl_file = pkl_file_prefix + str(int(image_nums/(20000))) + ".pkl"
+      for pred_dict in pred_generator:
+        feature_list.append(pred_dict["features"])
+        label_list.append(pred_dict["labels"])
+        predict_list.append(pred_dict["classes"])
+        prob_list.append(pred_dict["probabilities"])
+        logit_list.append(pred_dict["logits"])
+        if pred_dict["labels"] == pred_dict["classes"]:
+          correct += 1
+        # print('predict: ', pred_dict["classes"])
+        # print('label: ', pred_dict["labels"])
+        # "probabilities",
+        image_nums += 1
+        if image_nums >= total_image:
+          break
+        if image_nums % (20000) == 0:
+          tf.logging.info("image_nums %s", image_nums)
+          pkl_file = pkl_file_prefix + str(int(image_nums/(20000))) + ".pkl"
+          tf.logging.info("save feature to pkl: %s", pkl_file)
+          with tf.gfile.Open(os.path.join(work_dir, pkl_file),
+                             "wb") as resultfile:
+            pickle.dump(
+                {
+                    "feautres": feature_list,
+                    "labels": label_list,
+                    "predicts": predict_list,
+                    "logits": logit_list,
+                    "probs": prob_list,
+                },
+                resultfile,
+                protocol=pickle.HIGHEST_PROTOCOL)
+          feature_list = []
+          label_list = []
+          predict_list = []
+          prob_list = []
+          logit_list = []
+      pkl_file = pkl_file_prefix + str(int(image_nums/(20000) + 1)) + ".pkl"
       tf.logging.info("save feature to pkl: %s", pkl_file)
-      with tf.gfile.Open(os.path.join(work_dir, pkl_file),
-                         "wb") as resultfile:
+
+      with tf.gfile.Open(os.path.join(work_dir, pkl_file), "wb") as resultfile:
         pickle.dump(
             {
                 "feautres": feature_list,
@@ -182,27 +201,8 @@ def run_prediction_loop(hub_module, hub_module_signature, work_dir,
             },
             resultfile,
             protocol=pickle.HIGHEST_PROTOCOL)
-      feature_list = []
-      label_list = []
-      predict_list = []
-      prob_list = []
-      logit_list = []
-  pkl_file = pkl_file_prefix + str(int(image_nums/(20000) + 1)) + ".pkl"
-  tf.logging.info("save feature to pkl: %s", pkl_file)
 
-  with tf.gfile.Open(os.path.join(work_dir, pkl_file), "wb") as resultfile:
-    pickle.dump(
-        {
-            "feautres": feature_list,
-            "labels": label_list,
-            "predicts": predict_list,
-            "logits": logit_list,
-            "probs": prob_list,
-        },
-        resultfile,
-        protocol=pickle.HIGHEST_PROTOCOL)
-
-  accuracy = correct / image_nums
-  tf.logging.info("image_nums %s", image_nums)
-  tf.logging.info("accuracy %s", accuracy)
-  tf.logging.info("total image %s", total_image)
+      accuracy = correct / image_nums
+      tf.logging.info("image_nums %s", image_nums)
+      tf.logging.info("accuracy %s", accuracy)
+      tf.logging.info("total image %s", total_image)
