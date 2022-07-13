@@ -14,7 +14,6 @@
 # limitations under the License.
 """Imports all modules that need to be registered."""
 
-# pylint: disable=unused-import
 
 # Import datasets
 from pactran_metrics.data import caltech
