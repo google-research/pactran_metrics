@@ -133,7 +133,7 @@ def run_prediction_loop(hub_module, hub_module_signature, work_dir,
 
   pred_generator = estimator.predict(input_fn)
 
-  mode = "eval"  # train or eval
+  mode = "train"  # train or eval
 
   total_image = data_params["dataset"].get_num_samples(
       data_params["dataset_" + mode + "_split_name"])
