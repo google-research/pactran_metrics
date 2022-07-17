@@ -130,13 +130,13 @@ def run_prediction_loop(hub_module, hub_module_signature, work_dir,
                               optimization_params,
                               data_params)
 
-  for mode in ["train", "eval"]:
-      input_fn = data_loader.build_data_pipeline(data_params, mode="predict")
+  for predict_data in ["train", "eval"]:
+      input_fn = data_loader.build_data_pipeline(data_params, mode=f"predict_${predict_data}")
       pred_generator = estimator.predict(input_fn)
 
       total_image = data_params["dataset"].get_num_samples(
-          data_params["dataset_" + mode + "_split_name"])
-      work_dir = os.path.join(work_dir, mode)
+          data_params["dataset_" + predict_data + "_split_name"])
+      work_dir = os.path.join(work_dir, predict_data)
       if not tf.gfile.Exists(work_dir):
         tf.gfile.MakeDirs(work_dir)
 
@@ -148,7 +148,7 @@ def run_prediction_loop(hub_module, hub_module_signature, work_dir,
       prob_list = []
       logit_list = []
 
-      pkl_file_prefix = "feature_label_logits_" + mode
+      pkl_file_prefix = "feature_label_logits_" + predict_data
       tf.logging.info("save feature to pkl")
 
       for pred_dict in pred_generator:
