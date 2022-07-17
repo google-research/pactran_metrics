@@ -131,7 +131,7 @@ def run_prediction_loop(hub_module, hub_module_signature, work_dir,
                               data_params)
 
   for predict_data in ["train", "eval"]:
-      input_fn = data_loader.build_data_pipeline(data_params, mode=f"predict_${predict_data}")
+      input_fn = data_loader.build_data_pipeline(data_params, mode=f"predict_{predict_data}")
       pred_generator = estimator.predict(input_fn)
 
       total_image = data_params["dataset"].get_num_samples(
