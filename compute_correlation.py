@@ -114,13 +114,19 @@ def compute_correlation_vtab(num_examples, model_dir, results_dir):
         tau_m = np.mean(tau, axis=0)
         tau_s = np.std(tau, axis=0) / np.sqrt(5.)
         for m in range(tau_m.shape[0]):
-          if metric == 'valerr_half':
-            break
-          if metric == 'pac_gauss' and m != 12:  # only print out pt_gauss_fix
-            continue
+          vm = vals[:, :, m]
+          print_metric = metric
+          if metric == 'pac_gauss':
+            if m % 2 == 0:
+              # this is the FR value.
+              vm = vals[:, :, m] - vals[:, :, m + 1]
+            else:
+              # the linear metrics are reported in pac_guass result files.
+              print_metric = 'linear'
+
           print('%s %s %d: %.3f +-%.3f (%.1f %.3f %.3f)' %
-                (data, metric, n, tau_m[m], tau_s[m], time,
-                 np.mean(vals[:, :, m]), np.median(vals[:, :, m])))
+                (data, print_metric, n, tau_m[m], tau_s[m], time,
+                 np.mean(vm), np.std(vm)))
 
         if metric == 'valerr_half':
           valerr_half = np.min(vals, axis=2)
@@ -129,6 +135,7 @@ def compute_correlation_vtab(num_examples, model_dir, results_dir):
             tau[r], _ = stats.kendalltau(valerr_half[:, r], errs)
           print('%s valerr_half_best %d: %.3f' %
                 (data, n, np.mean(tau)))
+          ref = vals[:, :, 0]
         elif metric == 'pac_gauss':
           tauv = np.zeros([runs, vals.shape[2]])
           for r in range(runs):
