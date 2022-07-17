@@ -57,7 +57,8 @@ def build_data_pipeline(data_params, mode):
 
   if mode not in ("train", "eval", "predict_train", "predict_eval"):
     raise ValueError(
-        "The input pipeline supports two modes: `train`, `eval` or `predict."
+        "The input pipeline supports two modes: `train`, `eval`,"
+        "`predict_train` or `predict_eval." \
         "Provided mode is {}".format(mode))
 
   data = data_params["dataset"]
