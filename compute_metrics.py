@@ -279,6 +279,9 @@ def calculate_pac_gauss(features_np_all, label_np_all,
   starttime = time.time()
   nclasses = label_np_all.max()+1
   label_np_all = one_hot(label_np_all)  # [n, v]
+  
+  mean_feature = np.mean(features_np_all, axis=0, keepdims=True)
+  features_np_all -= mean_feature  # [n,k]
 
   bs = features_np_all.shape[0]
   kd = features_np_all.shape[-1] * nclasses
@@ -352,16 +355,21 @@ def calculate_pac_gauss(features_np_all, label_np_all,
   sigma2_inv = np.sum(h) * ldas2  / kd + 1e-10
   endtime = time.time()
 
-  if lda_factor == 0.1:
-    s2s = [1., 0.1]
-  else:
-    s2s = [10., 1., 0.1]
+  if lda_factor == 10.:
+    s2s = [1000., 100.]
+  elif lda_factor == 1.:
+    s2s = [100., 10.]
+  elif lda_factor == 0.1:
+    s2s = [10., 1.]
+    
   returnv = []
   for s2_factor in s2s:
     s2 = s2_factor * dinv
     pac_gauss = pac_opt + 0.5 * kd / ldas2 * s2 * np.log(
         sigma2_inv)
-
+    
+    # the first item is the pac_gauss metric
+    # the second item is the linear metric (without trH)
     returnv += [("pac_gauss_%.1f" % lda_factor, pac_gauss),
                 ("time", endtime - starttime),
                 ("pac_opt_%.1f" % lda_factor, pac_opt),
@@ -428,7 +436,7 @@ def main(argv):
     features += features_train["feautres"]
     labels += features_train["labels"]
 
-  if FLAGS.num_classes <= 0:
+  if FLAGS.num_classes <= 0 or FLAGS.num_classes > np.asarray(labels).max():
     k = np.asarray(labels).max() + 1
   else:
     k = FLAGS.num_classes
