@@ -55,7 +55,7 @@ def standardize_image(data,
 def build_data_pipeline(data_params, mode):
   """Builds data input pipeline."""
 
-  if mode not in ("train", "eval", "predict"):
+  if mode not in ("train", "eval", "predict_train", "predict_eval"):
     raise ValueError(
         "The input pipeline supports two modes: `train`, `eval` or `predict."
         "Provided mode is {}".format(mode))
@@ -69,10 +69,14 @@ def build_data_pipeline(data_params, mode):
         data_params.get("dataset_train_split_name")
         if mode == "train" else data_params.get("dataset_eval_split_name"))
     # do not repeat for predict mode
-    if mode == "predict":
+    if mode == "predict_eval":
       epochs = 1
       drop_remainder = False
       split_name = data_params.get("dataset_eval_split_name")
+    if mode == "predict_train":
+      epochs = 1
+      drop_remainder = False
+      split_name = data_params.get("dataset_train_split_name")
 
     return data.get_tf_data(
         split_name=split_name,
