@@ -43,13 +43,11 @@ python -m pactran_metrics.adapt_and_eval \
 
 - For whole network finetuning, run
 ```
-model_name=sup-100
-hub='https://tfhub.dev/vtab/${model_name}/1'
 python -m pactran_metrics.adapt_and_eval \
---hub_module ${hub}  \
+--hub_module 'https://tfhub.dev/vtab/sup-100/1'  \
 --hub_module_signature default \
 --finetune_layer default \
---work_dir /tmp/all_models/${model_name} \
+--work_dir /tmp/all_models/sup-100/caltech101/ \
 --dataset 'caltech101' \
 --batch_size 512 \
 --batch_size_eval 512 \
@@ -65,7 +63,7 @@ python -m pactran_metrics.adapt_and_eval \
 python -m pactran_metrics.anil_classifier \
 --hub_module="https://tfhub.dev/vtab/sup-100/1" \
 --dataset="caltech101" \
---work_dir=/tmp/all_results \
+--work_dir=/tmp/all_results/caltech101 \
 --feature_dir=/tmp/all_features
 ```
 
@@ -74,7 +72,7 @@ python -m pactran_metrics.anil_classifier \
 python -m pactran_metrics.compute_metrics \
 --hub_module="https://tfhub.dev/vtab/sup-100/1" \
 --dataset="caltech101" \
---work_dir=/tmp/all_results \
+--work_dir=/tmp/all_results/caltech101 \
 --feature_dir=/tmp/all_features \
 --num_examples=2
 ```
