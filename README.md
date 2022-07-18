@@ -21,8 +21,9 @@ In the following, we provide the instructions of using the metrics (while using 
   - Scipy
   - Scikit-learn
 
+Run the following scripts in the parent dir of `pactrain_metrics`
 
-- For feature prediction, run
+- For penultimate layer feature prediction, run
 ```
 python -m pactran_metrics.adapt_and_eval \
 --hub_module 'https://tfhub.dev/vtab/sup-100/1'  \
