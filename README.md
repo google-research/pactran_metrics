@@ -11,7 +11,7 @@ Our experiments showed that PACTran-Gaussian is a more consistent and effective 
 
 ## How to use
 
-In the following, we provide the instructions of using the metrics (while using the caltech101 task in the Visual Task Adaptation Benchmark (VTAB) [1] and the Sup-100% checkpoint as an example).
+In the following, we provide the instructions of using the metrics (while using the caltech101 task in the Visual Task Adaptation Benchmark (VTAB) [1] and the Sup-100% checkpoint as an example). Run the following scripts in the parent dir of `pactran_metrics`.
 
 - Prerequisites:
   - Tensorflow
@@ -20,8 +20,6 @@ In the following, we provide the instructions of using the metrics (while using 
   - Numpy
   - Scipy
   - Scikit-learn
-
-Run the following scripts in the parent dir of `pactran_metrics`
 
 - For penultimate layer feature prediction, run
 ```
