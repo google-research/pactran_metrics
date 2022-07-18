@@ -136,9 +136,9 @@ def run_prediction_loop(hub_module, hub_module_signature, work_dir,
 
       total_image = data_params["dataset"].get_num_samples(
           data_params["dataset_" + predict_data + "_split_name"])
-      work_dir = os.path.join(work_dir, predict_data)
-      if not tf.gfile.Exists(work_dir):
-        tf.gfile.MakeDirs(work_dir)
+      file_dir = os.path.join(work_dir, predict_data)
+      if not tf.gfile.Exists(file_dir):
+        tf.gfile.MakeDirs(file_dir)
 
       image_nums = 0
       correct = 0
@@ -169,7 +169,7 @@ def run_prediction_loop(hub_module, hub_module_signature, work_dir,
           tf.logging.info("image_nums %s", image_nums)
           pkl_file = pkl_file_prefix + str(int(image_nums/(20000))) + ".pkl"
           tf.logging.info("save feature to pkl: %s", pkl_file)
-          with tf.gfile.Open(os.path.join(work_dir, pkl_file),
+          with tf.gfile.Open(os.path.join(file_dir, pkl_file),
                              "wb") as resultfile:
             pickle.dump(
                 {
@@ -189,7 +189,7 @@ def run_prediction_loop(hub_module, hub_module_signature, work_dir,
       pkl_file = pkl_file_prefix + str(int(image_nums/(20000) + 1)) + ".pkl"
       tf.logging.info("save feature to pkl: %s", pkl_file)
 
-      with tf.gfile.Open(os.path.join(work_dir, pkl_file), "wb") as resultfile:
+      with tf.gfile.Open(os.path.join(file_dir, pkl_file), "wb") as resultfile:
         pickle.dump(
             {
                 "feautres": feature_list,
