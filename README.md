@@ -21,7 +21,7 @@ In the following, we provide the instructions of using the metrics (while using 
   - Scipy
   - Scikit-learn
 
-Run the following scripts in the parent dir of `pactrain_metrics`
+Run the following scripts in the parent dir of `pactran_metrics`
 
 - For penultimate layer feature prediction, run
 ```
