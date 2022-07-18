@@ -56,7 +56,7 @@ def compute_correlation_vtab(num_examples, model_dir, results_dir):
       # full model finetune
       for lr in lrs:
         for it in iters:
-          filepath = '%s/%s_incepaug_l2decay_float/%s/%s_%s_%s/result_file.txt' % (
+          filepath = '%s/%s/%s/%s_%s_%s/result_file.txt' % (
               model_dir, model, data, lr, it, 'False')
           if not tf.io.gfile.exists(filepath):
             tf.logging.info('Not Exist: %s', filepath)
@@ -114,19 +114,14 @@ def compute_correlation_vtab(num_examples, model_dir, results_dir):
         tau_m = np.mean(tau, axis=0)
         tau_s = np.std(tau, axis=0) / np.sqrt(5.)
         for m in range(tau_m.shape[0]):
-          vm = vals[:, :, m]
           print_metric = metric
           if metric == 'pac_gauss':
-            if m % 2 == 0:
-              # this is the FR value.
-              vm = vals[:, :, m] - vals[:, :, m + 1]
-            else:
+            if m % 2 == 1:
               # the linear metrics are reported in pac_guass result files.
               print_metric = 'linear'
 
-          print('%s %s %d: %.3f +-%.3f (%.1f %.3f %.3f)' %
-                (data, print_metric, n, tau_m[m], tau_s[m], time,
-                 np.mean(vm), np.std(vm)))
+          print('%s %s %d: %.3f +-%.3f (%.1f)' %
+                (data, print_metric, n, tau_m[m], tau_s[m], time))
 
         if metric == 'valerr_half':
           valerr_half = np.min(vals, axis=2)
@@ -140,7 +135,7 @@ def compute_correlation_vtab(num_examples, model_dir, results_dir):
           tauv = np.zeros([runs, vals.shape[2]])
           for r in range(runs):
             for m in range(vals.shape[2]):
-              tauv[r, m], _ = stats.kendalltau(vals[:, r, m], valerr_half[:, r])
+              tauv[r, m], _ = stats.kendalltau(vals[:, r, m], ref[:, r])
           tauv_m = np.mean(tauv, axis=0)
           # for m in range(tauv_m.shape[0]):
           #   print('%s %s %d: %.3f (tau with valerr_half)' %
